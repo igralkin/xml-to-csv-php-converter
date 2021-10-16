@@ -3,13 +3,13 @@ $xmldata='SOURCE_URL.xml';
 $csvFile = 'results.csv';
 $xPath = '//product';
 
+$xPath = '//product';
+
 // One of this array must be empty, or INCLUDE columns, or EXCLUDE
 $included_columns = array();  $excluded_columns = array('description');
 
 // Use function - generates CSV
 xml2csv($xmldata, $csvFile, $xPath, $included_columns, $excluded_columns);
-
-
 
 
 function xml2csv($xmlFile, $csvFile, $xPath, $included_columns = array(), $excluded_columns = array()) {
@@ -83,7 +83,8 @@ function xml2csv($xmlFile, $csvFile, $xPath, $included_columns = array(), $exclu
     }
 
     fclose($fp);
-    
+    print sizeof($ordered_all_data) . " products have been exported to $csvFile";
 	return True;
 }
 ?>
+
