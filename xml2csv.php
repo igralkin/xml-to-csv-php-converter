@@ -16,7 +16,12 @@ function xml2csv($xmlFile, $csvFile, $xPath, $included_columns = array(), $exclu
     $columns = array(); // All possible columns in XML
     $all_data = array();
 	// Load the XML file
-	$xml = simplexml_load_file($xmlFile);
+	if (function_exists('simplexml_load_file')) {
+	    $xml = simplexml_load_file($xmlFile);
+	} else {
+	    print "<h3>simplexml_load_file function does not exists! Please, install php-xml</h3>";
+	    return False;
+	}
 
 	// Jump to the specified xpath
 	$path = $xml->xpath($xPath);
@@ -83,8 +88,8 @@ function xml2csv($xmlFile, $csvFile, $xPath, $included_columns = array(), $exclu
     }
 
     fclose($fp);
-    print sizeof($ordered_all_data) . " products have been exported to $csvFile";
-	return True;
+    print '<h3>'. sizeof($ordered_all_data) . " products have been exported to $csvFile</h3>";
+    return True;
 }
 ?>
 
