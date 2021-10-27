@@ -8,10 +8,12 @@ $csvFile = 'results.csv';
 
 $xPath = '//product';
 
+$delimiter = ',';
+
 One of this array must be empty, or INCLUDE columns, or EXCLUDE:
 
 $included_columns = array();  $excluded_columns = array('description');
 
 ## Use function - generates CSV
-xml2csv($xmldata, $csvFile, $xPath, $included_columns, $excluded_columns);
+xml2csv($xmldata, $csvFile, $xPath, $included_columns, $excluded_columns, $delimiter);
 
