@@ -12,7 +12,7 @@ $included_columns = array();  $excluded_columns = array('description');
 xml2csv($xmldata, $csvFile, $xPath, $included_columns, $excluded_columns);
 
 
-function xml2csv($xmlFile, $csvFile, $xPath, $included_columns = array(), $excluded_columns = array()) {
+function xml2csv($xmlFile, $csvFile, $xPath, $included_columns = array(), $excluded_columns = array(), $delimiter = ',') {
     $columns = array(); // All possible columns in XML
     $all_data = array();
 	// Load the XML file
@@ -26,10 +26,17 @@ function xml2csv($xmlFile, $csvFile, $xPath, $included_columns = array(), $exclu
 	// Jump to the specified xpath
 	$path = $xml->xpath($xPath);
 
+	 // Loop through attributes
+        foreach($item[0]->attributes() as $key => $value) {
+            if (!in_array($key, $columns)) {
+                array_push($columns, $key);
+            }
+            $item_data[$key] = (string)$value;	
+        }
 	// Loop through the specified xpath
 	foreach($path as $item) {
         
-        $item_data = array();
+        	$item_data = array();
 		// Loop through the elements in this xpath
 		foreach($item as $key => $value) {
             if (!in_array($key, $columns)) {
@@ -75,16 +82,13 @@ function xml2csv($xmlFile, $csvFile, $xPath, $included_columns = array(), $exclu
     
     $fp = fopen($csvFile, 'w');
     // Write header to CSV
-    $fields = implode(',', $columns);
+    $fields = implode($delimiter, $columns);
 
     fwrite($fp,$fields.PHP_EOL);
 
     // Write data to CSV
     foreach ($ordered_all_data as $item_data) {
-        $item_values = implode(',', array_values($item_data));
-        //print_r($item_data);
-        //fputcsv($fp, $item_values);
-        fwrite($fp,$item_values.PHP_EOL);
+        fputcsv($fp, $item_data, $delimiter);
     }
 
     fclose($fp);
