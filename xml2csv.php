@@ -16,6 +16,14 @@ function xml2csv($xmlFile, $csvFile, $xPath, $included_columns = array(), $exclu
     // Load the XML file
     if (function_exists('simplexml_load_file')) {
         $xml = simplexml_load_file($xmlFile);
+        
+        if ($xml !== false) {
+            // pass
+        }
+        else {
+            print "<h3>Could not load xml file</h3>";
+            return False;
+        }
     } else {
         print "<h3>simplexml_load_file function does not exists! Please, install php-xml</h3>";
         return False;
